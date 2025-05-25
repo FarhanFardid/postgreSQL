@@ -85,4 +85,5 @@ INSERT INTO employees (employee_name, department_id, salary, hire_date) VALUES
 
 select extract (year from hire_date)  as hire_Year, count(*) from employees 
 GROUP BY hire_Year;
+
     select * from employees;
