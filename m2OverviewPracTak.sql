@@ -72,3 +72,31 @@ INSERT INTO course_enrollments (student_id, course_title, enrolled_on) VALUES
 (18, 'Control Systems', '2024-03-22'),
 (19, 'Artificial Intelligence', '2024-04-08'),
 (20, 'International Law', '2024-02-12');
+
+
+
+DROP TABLE students;
+DROP TABLE course_enrollments;
+
+
+-- Q1: Retrieve all students who scored higher than the average score.
+SELECT * from students where score > (SELECT AVG(score) from students );
+
+-- Q2: Find students whose age is greater than the average age of all students.
+SELECT * from students WHERE age > (SELECT AVG(age) from students);
+
+-- Q3: Get names of students who are enrolled in any course (use IN with subquery).
+SELECT  name from students where student_id in (SELECT student_id from course_enrollments);
+
+-- Q4: Retrieve departments with at least one student scoring above 90 (use EXISTS).
+
+SELECT * from departments where department_id in (SELECT department_id from students WHERE score>90 );
+
+SELECT * from departments d WHERE EXISTS(
+    SELECT 1 from students  s WHERE s.department_id=d.department_id AND s.score>90
+);
+
+-- Q5: Create a view to show each student’s name, department, and score.
+CREATE VIEW student_info AS SELECT name, department_name , score from students s JOIN departments d ON s.department_id=d.department_id;
+
+SELECT * from student_info;
